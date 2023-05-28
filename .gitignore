@@ -1,0 +1,12 @@
+# App Folder Gitignore
+/app/.gitignore
+
+# Server Folder Gitignore
+/server/.gitignore
+
+# Ignore generated build artifacts in the main folder
+/build/
+
+# Ignore system-specific files in the main folder
+.DS_Store
+Thumbs.db
