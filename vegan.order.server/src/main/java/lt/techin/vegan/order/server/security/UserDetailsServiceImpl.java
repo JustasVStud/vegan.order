@@ -11,17 +11,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lt.techin.vegan.order.server.model.User;
-import lt.techin.vegan.order.server.service.UserService;
+import lt.techin.vegan.order.server.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepository;
+    
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userService.getUserByUsername(username);
+	public UserDetails loadUserByUsername(String username){
+		User user = userRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("username not found"));
 		List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
 		return mapUserToCustomUserDetails(user, authorities);
 	}

@@ -18,7 +18,7 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
+	@Autowired
 	private UserMapper userMapper;
 	
 	public List<UserDto> getUsers(){

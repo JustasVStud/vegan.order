@@ -23,11 +23,14 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter{
 	
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Autowired
-	private TokenProvider tokenProvider;
+	 private final UserDetailsService userDetailsService;
+    private final TokenProvider tokenProvider;
+
+    @Autowired
+    public TokenAuthenticationFilter(UserDetailsService userDetailsService, TokenProvider tokenProvider) {
+        this.userDetailsService = userDetailsService;
+        this.tokenProvider = tokenProvider;
+    }
 	
 	
 	@Override

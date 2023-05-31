@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lt.techin.vegan.order.server.dto.UserDto;
 import lt.techin.vegan.order.server.service.UserService;
+
+import static lt.techin.vegan.order.server.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
 
 @CrossOrigin("*")
 @RestController
@@ -23,18 +27,22 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping
 	public ResponseEntity<List<UserDto>> getUsers(){
 		return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
 	}
+	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping("/id/{id}")
 	public ResponseEntity<UserDto> getUserById(@PathVariable Long id){
 		return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
 	}
+	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping("/username/{username}")
 	public ResponseEntity<UserDto> getUserByName(@PathVariable String username){
 		return new ResponseEntity<>(userService.getUserByName(username), HttpStatus.OK);
 	}
+	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id){
 		userService.deleteUser(id);

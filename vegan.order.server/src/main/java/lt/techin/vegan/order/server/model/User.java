@@ -17,10 +17,10 @@ public class User {
 	private Long id;
 	@Column(name = "username", nullable = false)
 	private String username;
-	@Column(name = "email", nullable = false)
-	private String email;
 	@Column(name = "password", nullable = false)
 	private String password;
+	@Column(name = "email", nullable = false)
+	private String email;
 	@Column(name = "role", nullable = false)
 	private String role;
 	
@@ -28,11 +28,11 @@ public class User {
 		super();
 	}
 	
-	public User(String username, String email, String password, String role) {
+	public User(String username, String password, String email, String role) {
 		super();
 		this.username = username;
-		this.email = email;
 		this.password = password;
+		this.email = email;
 		this.role = role;
 	}
 

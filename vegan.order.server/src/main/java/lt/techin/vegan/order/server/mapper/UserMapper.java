@@ -2,12 +2,14 @@ package lt.techin.vegan.order.server.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import lt.techin.vegan.order.server.dto.RegistrationDto;
 import lt.techin.vegan.order.server.dto.UserDto;
 import lt.techin.vegan.order.server.model.User;
 import lt.techin.vegan.order.server.security.WebSecurityConfig;
 
+@Component
 public class UserMapper {
 	
 	@Autowired
