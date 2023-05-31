@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lt.techin.vegan.order.server.dto.RegistrationDto;
 import lt.techin.vegan.order.server.dto.UserDto;
 import lt.techin.vegan.order.server.exception.NoEntries;
 import lt.techin.vegan.order.server.exception.NotFound;
@@ -39,6 +40,15 @@ public class UserService {
 	public UserDto getUserByName(String username) {
 		User user = userRepository.findByUsername(username).orElseThrow(() -> new NotFound("user", "username", username));
 		return userMapper.toDto(user);
+	}
+	
+	public User getUserByUsername(String username) {
+		return userRepository.findByUsername(username).orElseThrow(() -> new NotFound("user", "username", username));
+	}
+	
+	public void createUser(RegistrationDto registrationDto) {
+		User user = userMapper.mapRegistrationDtoToUser(registrationDto);
+		userRepository.save(user);
 	}
 	
 	public void deleteUser(Long id) {

@@ -4,18 +4,18 @@ public class UserDto {
 	private Long id;
 	private String username;
 	private String email;
-	private boolean isAdmin;
+	private String role;
 	
 	public UserDto() {
 		super();
 	}
 	
-	public UserDto(Long id, String username, String email, boolean isAdmin) {
+	public UserDto(Long id, String username, String email, String role) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.email = email;
-		this.isAdmin = isAdmin;
+		this.role = role;
 	}
 
 	public Long getId() {
@@ -42,12 +42,12 @@ public class UserDto {
 		this.email = email;
 	}
 
-	public boolean isAdmin() {
-		return isAdmin;
+	public String getRole() {
+		return role;
 	}
 
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 	

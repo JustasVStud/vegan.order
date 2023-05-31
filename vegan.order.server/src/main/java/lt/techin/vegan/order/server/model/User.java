@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 @Table(name = "user")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(name = "username", nullable = false)
 	private String username;
@@ -21,65 +21,55 @@ public class User {
 	private String email;
 	@Column(name = "password", nullable = false)
 	private String password;
-	@Column(name = "is_admin", nullable = false, columnDefinition = "BOOLEAN")
-	private boolean isAdmin;
+	@Column(name = "role", nullable = false)
+	private String role;
 	
 	public User() {
 		super();
 	}
-
-	public User(Long id, String username, String email, String password, boolean isAdmin) {
+	
+	public User(String username, String email, String password, String role) {
 		super();
-		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.isAdmin = isAdmin;
+		this.role = role;
 	}
 
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public String getUsername() {
 		return username;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public boolean isAdmin() {
-		return isAdmin;
+	public String getRole() {
+		return role;
 	}
-
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, id, isAdmin, password, username);
+		return Objects.hash(email, id, password, role, username);
 	}
 
 	@Override
@@ -91,15 +81,18 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && isAdmin == other.isAdmin
-				&& Objects.equals(password, other.password) && Objects.equals(username, other.username);
+		return Objects.equals(email, other.email) && Objects.equals(id, other.id)
+				&& Objects.equals(password, other.password) && Objects.equals(role, other.role)
+				&& Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", isAdmin=" + isAdmin + "]";
+		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", role="
+				+ role + "]";
 	}
+	
+	
 	
 	
 }
