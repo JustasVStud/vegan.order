@@ -28,15 +28,15 @@ public class AuthController {
 	@Autowired
     private TokenProvider tokenProvider;
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public AuthResponse login(@RequestBody LoginDto loginDto) {
         String token = authenticateAndGetToken(loginDto.getUsername(), loginDto.getPassword());
         return new AuthResponse(token);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/signup")
-    public AuthResponse signUp(@RequestBody RegistrationDto registrationDto) {
+    @PostMapping("/register")
+    public AuthResponse register(@RequestBody RegistrationDto registrationDto) {
 
         userService.createUser(registrationDto);
 
