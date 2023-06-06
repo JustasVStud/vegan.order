@@ -24,7 +24,8 @@ public class Menu {
 	private Long id;
 	@Column(name = "title")
 	private String title;
-	@OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "menu_id", referencedColumnName = "id")
     private List<Meal> meals = new ArrayList<>();
 	
 }
