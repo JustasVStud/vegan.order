@@ -47,7 +47,7 @@ public class MealController {
 	}
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@PatchMapping("/{id}")
-	public ResponseEntity<HttpStatus> updateMenu(@PathVariable Long id, @RequestBody MealDto mealDto){
+	public ResponseEntity<HttpStatus> updateMeal(@PathVariable Long id, @RequestBody MealDto mealDto){
 		mealService.updateMeal(id, mealDto);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

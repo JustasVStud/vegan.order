@@ -2,13 +2,14 @@ package lt.techin.vegan.order.server.service;
 
 import java.util.List;
 
+import org.modelmapper.Conditions;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lt.techin.vegan.order.server.dto.MenuDto;
 import lt.techin.vegan.order.server.exception.NoEntries;
 import lt.techin.vegan.order.server.exception.NotFound;
-import lt.techin.vegan.order.server.mapper.MenuMapper;
 import lt.techin.vegan.order.server.model.Menu;
 import lt.techin.vegan.order.server.repository.MenuRepository;
 
@@ -19,33 +20,31 @@ public class MenuService {
 	private MenuRepository menuRepository;
 	
 	@Autowired
-	private MenuMapper menuMapper;
+	private ModelMapper modelMapper;
 	
 	public List<MenuDto> getMenus() {
 		List<Menu> menus = menuRepository.findAll();
 		if (menus.isEmpty()) {
 			throw new NoEntries("menus");
 		}
-		
-		return menus.stream().map(menuMapper::toDto).toList();
+		return menus.stream().map(menu -> modelMapper.map(menu, MenuDto.class)).toList();
 	}
-	
+	 
 	public MenuDto getMenuById(Long id) {
 		Menu menu =  menuRepository.findById(id).orElseThrow(() -> new NotFound("menu", "id", id.toString()));
-		return menuMapper.toDto(menu);
+		return modelMapper.map(menu, MenuDto.class);
 	}
 	
-	public void createMenu(MenuDto menuDto) {
-		menuRepository.save(menuMapper.toEntity(menuDto));
+	public void createMenu(MenuDto menuDto) { 
+		Menu menu = modelMapper.map(menuDto, Menu.class);
+		menuRepository.save(menu);
 	}
 	
 	public void updateMenu(Long id, MenuDto updatedMenuDto) {
-		
-		MenuDto currentMenuDto = getMenuById(id);
-		
-		currentMenuDto.setTitle(updatedMenuDto.getTitle());
-		currentMenuDto.setMeals(updatedMenuDto.getMeals());
-		menuRepository.save(menuMapper.toEntity(currentMenuDto));
+		Menu existingMenu = menuRepository.findById(id).orElseThrow(() -> new NotFound("menu", "id", id.toString()));
+		modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+		modelMapper.map(updatedMenuDto, existingMenu);
+		menuRepository.save(existingMenu);
 	}
 	
 	public void deleteMenu(Long id) {
