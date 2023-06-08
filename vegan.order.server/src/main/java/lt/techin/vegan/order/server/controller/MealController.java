@@ -24,37 +24,47 @@ import lt.techin.vegan.order.server.service.MealService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/meals")
+@RequestMapping("api/")
 public class MealController {
 	
 	@Autowired
 	private MealService mealService;
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
-	@GetMapping
-	public ResponseEntity<List<MealDto>> getMeals(){
-		return new ResponseEntity<>(mealService.getMeals(), HttpStatus.OK);
+	@GetMapping("menus/{menuId}/meals")
+	public ResponseEntity<List<MealDto>> getMeals(
+			@PathVariable(value = "menuId") Long menuId){
+		return new ResponseEntity<>(mealService.getMeals(menuId), HttpStatus.OK);
 	}
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
-	@GetMapping("/{id}")
-	public ResponseEntity<MealDto> getMealById(@PathVariable Long id){
-		return new ResponseEntity<>(mealService.getMealById(id), HttpStatus.OK);
+	@GetMapping("menus/{menuId}/meals/{id}")
+	public ResponseEntity<MealDto> getMealById(
+			@PathVariable(value = "menuId") Long menuId, 
+			@PathVariable(value = "id") Long id){
+		return new ResponseEntity<>(mealService.getMealById(menuId, id), HttpStatus.OK);
 	}
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
-	@PostMapping()
-	public ResponseEntity<HttpStatus> createMeal(@RequestBody MealDto mealDto){
-		mealService.createMeal(mealDto);
+	@PostMapping("menus/{menuId}/meals")
+	public ResponseEntity<HttpStatus> createMeal(
+			@PathVariable(value = "menuId") Long menuId, 
+			@RequestBody MealDto mealDto){
+		mealService.createMeal(menuId, mealDto);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
-	@PatchMapping("/{id}")
-	public ResponseEntity<HttpStatus> updateMeal(@PathVariable Long id, @RequestBody MealDto mealDto){
-		mealService.updateMeal(id, mealDto);
+	@PatchMapping("menus/{menuId}/meals/{id}")
+	public ResponseEntity<HttpStatus> updateMeal(
+			@PathVariable(value = "menuId") Long menuId, 
+			@PathVariable(value = "id") Long id, 
+			@RequestBody MealDto mealDto){
+		mealService.updateMeal(menuId, id, mealDto);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
-	@DeleteMapping("/{id}")
-	public ResponseEntity<HttpStatus> deleteMeal(@PathVariable Long id){
-		mealService.deleteMeal(id);
+	@DeleteMapping("menus/{menuId}/meals/{id}")
+	public ResponseEntity<HttpStatus> deleteMeal(
+			@PathVariable(value = "menuId") Long menuId, 
+			@PathVariable(value = "id") Long id){
+		mealService.deleteMeal(menuId, id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

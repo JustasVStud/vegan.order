@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lt.techin.vegan.order.server.dto.MenuDto;
+import lt.techin.vegan.order.server.dto.MenuResponse;
 import lt.techin.vegan.order.server.exception.NoEntries;
 import lt.techin.vegan.order.server.exception.NotFound;
 import lt.techin.vegan.order.server.model.Menu;
@@ -35,19 +36,20 @@ public class MenuService {
 		return modelMapper.map(menu, MenuDto.class);
 	}
 	
-	public void createMenu(MenuDto menuDto) { 
-		Menu menu = modelMapper.map(menuDto, Menu.class);
+	public void createMenu(MenuResponse menuResponse) { 
+		Menu menu = modelMapper.map(menuResponse, Menu.class);
 		menuRepository.save(menu);
 	}
 	
-	public void updateMenu(Long id, MenuDto updatedMenuDto) {
+	public void updateMenu(Long id, MenuResponse updatedMenuResponse) {
 		Menu existingMenu = menuRepository.findById(id).orElseThrow(() -> new NotFound("menu", "id", id.toString()));
 		modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-		modelMapper.map(updatedMenuDto, existingMenu);
+		modelMapper.map(updatedMenuResponse, existingMenu);
 		menuRepository.save(existingMenu);
 	}
 	
 	public void deleteMenu(Long id) {
-		menuRepository.deleteById(id);
+		Menu menu =  menuRepository.findById(id).orElseThrow(() -> new NotFound("menu", "id", id.toString()));
+		menuRepository.delete(menu);
 	}
 }
