@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lt.techin.vegan.order.server.dto.MenuDto;
 import lt.techin.vegan.order.server.dto.MenuResponse;
+import lt.techin.vegan.order.server.security.CustomUserDetails;
 import lt.techin.vegan.order.server.service.MenuService;
 
 @CrossOrigin("*")
@@ -32,7 +34,7 @@ public class MenuController {
 	private MenuService menuService;
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping
-	public ResponseEntity<List<MenuDto>> getMenus(){
+	public ResponseEntity<List<MenuDto>> getMenus(@AuthenticationPrincipal CustomUserDetails currentUser){
 		return new ResponseEntity<>(menuService.getMenus(), HttpStatus.OK);
 	}
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
