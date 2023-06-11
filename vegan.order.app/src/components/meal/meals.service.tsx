@@ -3,9 +3,9 @@ import { authHeader } from '../auth/auth.service';
 
 const BASE_URL = 'http://localhost:8080/api/menus'
 
-export const getMenus = async() => {
+export const getMeals = async(menuId: string) => {
     try{
-        const response = await axios.get(BASE_URL, {
+        const response = await axios.get(`${BASE_URL}/${menuId}/meals`, {
             headers: authHeader()
         });
         return response.data;
@@ -14,9 +14,9 @@ export const getMenus = async() => {
     }
 }
 
-export const getMenu = async(id: string) => {
+export const getMeal = async(menuId: string, mealId: string) => {
     try{
-        const response = await axios.get(`${BASE_URL}/${id}`, {
+        const response = await axios.get(`${BASE_URL}/${menuId}/meals/${mealId}`, {
             headers: authHeader()
         });
         return response.data;

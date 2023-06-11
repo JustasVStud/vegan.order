@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Spinner } from 'react-bootstrap';
+import React, { useState, useEffect, useContext } from 'react';
+import { Button, Card, Container, Row, Spinner, Col } from 'react-bootstrap';
 import { getMenus } from './menu.service';
-import Menu  from './Menu';
 import { MenuData } from './MenuData';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../auth/AuthContext';
 
 function MenuList() {
   const [menus, setMenus] = useState<MenuData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const authContext = useContext(AuthContext);
+  const isAdmin = authContext.hasRole('ADMIN');
+
 
   useEffect(() => {
     const fetchMenus = async () => {
@@ -14,7 +19,6 @@ function MenuList() {
         setIsLoading(true);
         const menus = await getMenus();
         setMenus(menus);
-        console.log(menus);
       } catch (error) {
         console.log(error);
       } finally {
@@ -38,14 +42,28 @@ function MenuList() {
         ): (
             menus.length > 0 ? (
               menus.map((menu) => (
-                <Menu key={menu.id} menu={menu} />
+                <Card key={menu.id}>
+                  <Link to={`/menus/${menu.id}`}>
+                    <Card.Body>
+                      <Card.Title>{menu.title}</Card.Title>
+                    </Card.Body>
+                  </Link>
+                </Card>
               ))
             ) : (
               <h4>No Menus were found</h4>
             )
         )}
-         
       </Row>
+      {isAdmin && 
+        <Row>
+            <Button variant="sucess">
+              <Link to="/menus/create">
+                Create new
+              </Link>
+            </Button>
+        </Row>
+      }
     </Container>
   );
 }

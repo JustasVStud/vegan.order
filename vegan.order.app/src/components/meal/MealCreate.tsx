@@ -1,5 +1,7 @@
 function MealCreate() {
-    return ( <></> );
+    return ( <>
+    
+    </> );
 }
 
 export default MealCreate;

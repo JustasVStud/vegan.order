@@ -15,6 +15,7 @@ interface AuthContextType {
   login: (username: string, password: string) => Promise<AxiosResponse<any>>;
   register: (username: string, password: string, email: string) => Promise<AxiosResponse<any>>;
   loading: boolean;
+  hasRole: (requiredRole: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -26,6 +27,9 @@ const AuthContext = createContext<AuthContextType>({
     throw new Error('AuthContext not yet initialized')
   },
   loading: true,
+  hasRole: () => {
+    throw new Error('AuthContext not yet initialized');
+  },
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -103,8 +107,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       throw err;
     }
   }, [setLogoutTimeout]);
+  const hasRole = useCallback((requiredRole: string) => {
+    const userRole = user?.data.rol;
+  
+    // Check if userRole is an array and includes the requiredRole
+    return Array.isArray(userRole) && userRole.includes(requiredRole);
+  }, [user]);
   return (
-    <AuthContext.Provider value={{ user, login, register, loading }}>
+    <AuthContext.Provider value={{ user, login, register, loading , hasRole}}>
       {children}
     </AuthContext.Provider>
   );
