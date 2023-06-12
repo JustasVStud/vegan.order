@@ -6,7 +6,7 @@ function HeaderNav() {
     //const isAdmin = authContext.hasRole('ADMIN');
     
     return ( 
-        <Navbar bg="dark" variant="dark">
+        <Navbar>
             <Container>
                 <Navbar.Brand>Vegan Order</Navbar.Brand>
                 <Nav>

@@ -24,3 +24,14 @@ export const getMenu = async(id: string) => {
         throw error;
     }
 }
+
+export const createMenu = async(title: string) => {
+    try{
+        const response = await axios.post(`${BASE_URL}`, {title}, {
+            headers: authHeader()
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

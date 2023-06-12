@@ -39,24 +39,24 @@ public class MenuController {
 	}
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping("/{id}")
-	public ResponseEntity<MenuDto> getMenuById(@PathVariable Long id){
+	public ResponseEntity<MenuDto> getMenuById(@AuthenticationPrincipal CustomUserDetails currentUser, @PathVariable Long id){
 		return new ResponseEntity<>(menuService.getMenuById(id), HttpStatus.OK);
 	}
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@PostMapping()
-	public ResponseEntity<HttpStatus> createMenu(@RequestBody MenuResponse menuResponse){
+	public ResponseEntity<HttpStatus> createMenu(@AuthenticationPrincipal CustomUserDetails currentUser, @RequestBody MenuResponse menuResponse){
 		menuService.createMenu(menuResponse);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@PatchMapping("/{id}")
-	public ResponseEntity<HttpStatus> updateMenu(@PathVariable Long id, @RequestBody MenuResponse menuResponse){
+	public ResponseEntity<HttpStatus> updateMenu(@AuthenticationPrincipal CustomUserDetails currentUser, @PathVariable Long id, @RequestBody MenuResponse menuResponse){
 		menuService.updateMenu(id, menuResponse);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@DeleteMapping("/{id}")
-	public ResponseEntity<HttpStatus> deleteMenu(@PathVariable Long id){
+	public ResponseEntity<HttpStatus> deleteMenu(@AuthenticationPrincipal CustomUserDetails currentUser, @PathVariable Long id){
 		menuService.deleteMenu(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
