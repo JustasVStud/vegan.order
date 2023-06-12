@@ -35,3 +35,25 @@ export const createMenu = async(title: string) => {
         throw error;
     }
 }
+
+export const editMenu = async(id: string, title: string) => {
+    try {
+        const response = await axios.patch(`${BASE_URL}/${id}`, {title}, {
+            headers: authHeader()
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const deleteMenu = async(id: string) => {
+    try{
+        const response = await axios.delete(`${BASE_URL}/${id}`, {
+            headers: authHeader()
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

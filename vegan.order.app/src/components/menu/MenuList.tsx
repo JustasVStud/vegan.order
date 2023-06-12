@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Button, Card, Container, Row, Spinner, Col } from 'react-bootstrap';
+import { Button, Card, Container, Row, Spinner } from 'react-bootstrap';
 import { getMenus } from './menu.service';
 import { MenuData } from './MenuData';
 import { Link } from 'react-router-dom';
