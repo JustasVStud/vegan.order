@@ -1,10 +1,10 @@
 
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { MealData, MenuData } from './MenuData';
 import { useState, useEffect, useContext } from 'react';
 import { getMenu } from './menu.service';
 import { getMeals } from '../meal/meals.service';
-import { Container, Row, Spinner } from 'react-bootstrap';
+import { Button, Container, Row, Spinner } from 'react-bootstrap';
 import Meal from '../meal/Meal';
 import { AuthContext } from '../auth/AuthContext';
 
@@ -70,6 +70,13 @@ function Menu() {
               ))
               ):(<></>)}
               </Row>
+              {isAdmin && 
+              <Row>
+                <Button variant='warning'>
+                  <Link to={`/menus/${menu.id}/edit`}>Edit</Link>
+                </Button>
+              </Row>
+              }
             </>
             ) : (
             <Row>not found</Row>
