@@ -9,6 +9,7 @@ import Login from './components/user/Login';
 import Register from './components/user/Register';
 import { AuthProvider } from './components/auth/AuthContext';
 import Home from './components/Home';
+import MealCreate from './components/meal/MealCreate';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='/menus/:id' element={<Menu/>}/>
         <Route path='/menus/create' element={<MenuCreate/>}/>
         <Route path='/menus/:id/edit' element={<MenuEdit/>}/>
+        <Route path='/menus/:menuId/meals/create' element={<MealCreate/>}/>
       </Routes>
     </div>
   </AuthProvider>

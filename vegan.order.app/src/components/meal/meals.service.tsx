@@ -24,3 +24,14 @@ export const getMeal = async(menuId: string, mealId: string) => {
         throw error;
     }
 }
+export const createMeal = async(menuId:string, title: string, description: string, quantity: number) => {
+    try{
+        const response = await axios.post(`${BASE_URL}/${menuId}/meals`, {title, description, quantity}, {
+            headers: authHeader()
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+//export const updateMeal = async (menuId: string, mealId: string )

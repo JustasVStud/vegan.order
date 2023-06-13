@@ -73,7 +73,10 @@ function Menu() {
               {isAdmin && 
               <Row>
                 <Button variant='warning'>
-                  <Link to={`/menus/${menu.id}/edit`}>Edit</Link>
+                  <Link to={`/menus/${menu.id}/edit`}>Edit Menu</Link>
+                </Button>
+                <Button variant='success'>
+                  <Link to={`/menus/${menu.id}/meals/create`}>Add meal</Link>
                 </Button>
               </Row>
               }
