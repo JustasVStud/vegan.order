@@ -16,39 +16,43 @@ function Menu() {
     const [isLoading, setIsLoading] = useState(true);
     const [meals, setMeals] = useState<MealData[]>([]);
     let { id } = useParams();
-    useEffect(() => {
-      const fetchMenu = async (id : string) => {
-        try {
-            setIsLoading(true);
-            const menu = await getMenu(id);
-            setMenu(menu);
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      if(id !== undefined){
-        fetchMenu(id);
-      }
-    }, [id]);
 
-    useEffect(() => {
-      const fetchMeals = async(id: string) => {
-        try{
-            setIsLoading(true);
-            const meals = await getMeals(id);
-            setMeals(meals);
-        } catch (error) {
-          console.log(error);
-        } finally{
-          setIsLoading(false);
-        } 
-      }
-      if(id !== undefined){
-        fetchMeals(id);
-      }
-    }, [id])
+
+  const fetchMenu = async (id: string) => {
+    try {
+      setIsLoading(true);
+      const menu = await getMenu(id);
+      setMenu(menu);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchMeals = async (id: string) => {
+    try {
+      setIsLoading(true);
+      const meals = await getMeals(id);
+      setMeals(meals);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (id !== undefined) {
+      fetchMenu(id);
+      fetchMeals(id);
+    }
+  }, [id]);
+
+  const handleMealDelete = () => {
+    if (id !== undefined) fetchMeals(id); // Call the menu fetch again after meal deletion
+  };
+
   return (
       <Container>
         {isLoading ? (
@@ -66,7 +70,7 @@ function Menu() {
               <Row>
               {meals.length > 0 ? (
               meals.map((meal) => (
-                <Meal meal={meal} key={meal.id} />
+                <Meal meal={meal} menuId={menu.id} mealId={meal.id} key={meal.id} onDelete={handleMealDelete}  />
               ))
               ):(<></>)}
               </Row>

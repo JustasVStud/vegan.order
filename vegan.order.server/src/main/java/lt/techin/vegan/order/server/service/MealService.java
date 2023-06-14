@@ -55,7 +55,9 @@ public class MealService {
 		if(!existingMeal.getMenu().getId().equals(menu.getId())) {
 			throw new EntityMismatch("meal", id.toString(), "menu", menuId.toString());
 		}
-		modelMapper.map(updatedMealDto, existingMeal);
+		existingMeal.setTitle(updatedMealDto.getTitle());
+		existingMeal.setDescription(updatedMealDto.getDescription());
+		existingMeal.setQuantity(updatedMealDto.getQuantity());
 		mealRepository.save(existingMeal);
 	}
 	

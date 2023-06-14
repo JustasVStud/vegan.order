@@ -34,4 +34,26 @@ export const createMeal = async(menuId:string, title: string, description: strin
         throw error;
     }
 }
-//export const updateMeal = async (menuId: string, mealId: string )
+export const updateMeal = async (menuId: string, mealId: string, title: string, description: string, quantity: number ) => {
+    try {
+        const response = await axios.patch(`${BASE_URL}/${menuId}/meals/${mealId}`,
+        {title, description, quantity},
+        {
+            headers: authHeader()
+        }
+        )
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+export const deleteMeal = async(menuId: number, mealId: number) =>{
+    try {
+        const response = await axios.delete(`${BASE_URL}/${menuId}/meals/${mealId}`,
+        { headers: authHeader() }
+        )
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

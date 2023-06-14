@@ -1,15 +1,16 @@
-import { Routes, Route} from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './components/auth/AuthContext';
 import './App.scss';
+import Home from './components/Home';
 import HeaderNav from './components/HeaderNav';
+import Login from './components/user/Login';
+import Register from './components/user/Register';
 import Menu from './components/menu/Menu';
 import MenuList from './components/menu/MenuList';
 import MenuCreate from './components/menu/MenuCreate';
 import MenuEdit from './components/menu/MenuEdit';
-import Login from './components/user/Login';
-import Register from './components/user/Register';
-import { AuthProvider } from './components/auth/AuthContext';
-import Home from './components/Home';
 import MealCreate from './components/meal/MealCreate';
+import MealEdit from './components/meal/MealEdit';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/menus/create' element={<MenuCreate/>}/>
         <Route path='/menus/:id/edit' element={<MenuEdit/>}/>
         <Route path='/menus/:menuId/meals/create' element={<MealCreate/>}/>
+        <Route path='/menus/:menuId/meals/:id' element={<MealEdit/>}/>
       </Routes>
     </div>
   </AuthProvider>

@@ -1,29 +1,46 @@
 import {  Form, Row, Col, Button, Alert, Card } from 'react-bootstrap';
 import { Formik, FormikState } from 'formik';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {  useParams, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { createMeal } from './meals.service';
-
+import { getMeal, updateMeal } from './meals.service';
+import { MealData } from '../menu/MenuData';
 const mealValidationSchema = Yup.object().shape({
   title: Yup.string().required('Meal title is required'),
   description: Yup.string(),
   quantity: Yup.number()
 });
 
-function MealCreate() {
+function MealEdit() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
   const [showError, setShowError] = useState(false);
-  const { menuId } = useParams();
+  const { menuId, id } = useParams();
+  const [meal, setMeal] = useState<MealData>();
+  console.log(menuId + ' ' + id);
+  
+  useEffect(() => {
+    const fetchMeal = async (menuId: string, id : string) => {
+      try {
+          const menu = await getMeal(menuId, id);
+          setMeal(menu);
+      } catch (error) {
+        console.log(error);
+      } finally {
+      }
+    };
+    if(menuId !== undefined && id !== undefined){
+      fetchMeal(menuId, id);
+    }
+  }, [menuId, id]);
 
-  const handlemealCreation = async (
+  const handleMealEdit = async (
     values: { title: any; description: any; quantity: any; },
     { resetForm }: { resetForm: (nextState?: Partial<FormikState<{ title: string; description: string; quantity: number; }>> | undefined) => void; }
   ) => {
     try {
-        if(menuId !== undefined){
-            await createMeal(menuId, values.title, values.description, values.quantity); 
+        if(menuId !== undefined && id !== undefined){
+            await updateMeal(menuId, id, values.title, values.description, values.quantity); 
         }
       resetForm();
       navigate(`/menus/${menuId}`);
@@ -43,13 +60,13 @@ function MealCreate() {
         )}
         <Formik
           initialValues={{
-            title: '',
-            description: '',
-            quantity: 0
+            title: meal?.title || '',
+            description: meal?.description || '',
+            quantity: meal?.quantity || 0
           }}
           validationSchema={mealValidationSchema}
           onSubmit={(values, { resetForm }) => {
-            handlemealCreation(values, { resetForm });
+            handleMealEdit(values, { resetForm });
           }}
           enableReinitialize
         >
@@ -119,7 +136,7 @@ function MealCreate() {
                 </Col>
                 <Col>
                   <Button variant="primary" type="submit" disabled={!dirty}>
-                    Create meal
+                    Edit meal
                   </Button>
                 </Col>
               </Row>
@@ -131,4 +148,4 @@ function MealCreate() {
   );
 }
 
-export default MealCreate;
+export default MealEdit;

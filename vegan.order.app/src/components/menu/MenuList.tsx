@@ -4,6 +4,7 @@ import { getMenus } from './menu.service';
 import { MenuData } from './MenuData';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
+import { deleteMenu } from './menu.service';
 
 function MenuList() {
   const [menus, setMenus] = useState<MenuData[]>([]);
@@ -12,22 +13,29 @@ function MenuList() {
   const authContext = useContext(AuthContext);
   const isAdmin = authContext.hasRole('ADMIN');
 
-
+  const fetchMenus = async () => {
+    try {
+      setIsLoading(true);
+      const menus = await getMenus();
+      setMenus(menus);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchMenus = async () => {
-      try {
-        setIsLoading(true);
-        const menus = await getMenus();
-        setMenus(menus);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchMenus();
   }, []);
+
+  const handleMenuDelete = async (menuId: number) => {
+    try {
+      await deleteMenu(menuId);
+      fetchMenus();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container>
@@ -46,6 +54,7 @@ function MenuList() {
                   <Link to={`/menus/${menu.id}`}>
                     <Card.Body>
                       <Card.Title>{menu.title}</Card.Title>
+                      {isAdmin && <Button onClick={() => handleMenuDelete(menu.id)}>Delete Menu</Button>}
                     </Card.Body>
                   </Link>
                 </Card>

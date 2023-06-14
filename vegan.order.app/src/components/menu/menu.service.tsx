@@ -47,7 +47,7 @@ export const editMenu = async(id: string, title: string) => {
     }
 }
 
-export const deleteMenu = async(id: string) => {
+export const deleteMenu = async(id: number) => {
     try{
         const response = await axios.delete(`${BASE_URL}/${id}`, {
             headers: authHeader()
